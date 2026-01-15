@@ -1,4 +1,4 @@
-name: Deploy Vite site to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install
-        run: npm ci
+      - name: Install dependencies
+        run: npm install
 
       - name: Build
         run: npm run build
@@ -48,6 +48,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
