@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap');
 
 :root {
   color-scheme: light;
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'Space Grotesk', 'Padauk', system-ui, sans-serif;
   background: radial-gradient(circle at top left, #fff6ea, #f6f2ee 45%, #efe7de 100%);
   color: var(--ink);
   line-height: 1.6;

@@ -1,22 +1,34 @@
+import { useState } from 'react'
 import logo from './assets/logo.png'
 import banner from './assets/banner.png'
+import { translations } from './translations'
 
 // Replace src/assets/logo.svg and src/assets/banner.svg with your images (logo.png/banner.jpg) and update imports if needed.
 
 export default function App() {
+  const [language, setLanguage] = useState('en')
+  const t = translations[language]
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'en' ? 'my' : 'en')
+  }
+
   return (
     <div className="page">
       <header className="nav">
         <div className="container nav-inner">
           <a className="brand" href="#hero">
             <img src={logo} alt="A&S IT SOLUTION logo" className="logo" />
-            <span>A&S IT SOLUTION</span>
+            <span>{t.hero.title}</span>
           </a>
           <nav className="nav-links">
-            <a href="#services">Services</a>
-            <a href="#about">About</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#contact">Contact</a>
+            <a href="#services">{t.nav.services}</a>
+            <a href="#about">{t.nav.about}</a>
+            <a href="#testimonials">{t.nav.testimonials}</a>
+            <a href="#contact">{t.nav.contact}</a>
+            <button className="btn-lang" onClick={toggleLanguage} style={{ marginLeft: '1rem', padding: '0.5rem 1rem', cursor: 'pointer' }}>
+              {language === 'en' ? 'Myanmar' : 'English'}
+            </button>
           </nav>
         </div>
       </header>
@@ -25,12 +37,12 @@ export default function App() {
         <section id="hero" className="hero">
           <div className="container hero-grid">
             <div className="hero-copy">
-              <p className="eyebrow">Modern minimal IT partner</p>
-              <h1>A&S IT SOLUTION</h1>
-              <p className="tagline">A love story in everyline of code</p>
+              <p className="eyebrow">{t.hero.eyebrow}</p>
+              <h1>{t.hero.title}</h1>
+              <p className="tagline">{t.hero.tagline}</p>
               <div className="hero-actions">
-                <a className="btn" href="#contact">Start a project</a>
-                <a className="btn ghost" href="#services">View services</a>
+                <a className="btn" href="#contact">{t.hero.cta}</a>
+                <a className="btn ghost" href="#services">{t.hero.services}</a>
               </div>
             </div>
             <div className="hero-media">
@@ -42,130 +54,114 @@ export default function App() {
         <section id="services" className="section">
           <div className="container">
             <div className="section-head">
-              <h1>Clinic Software (Offline-first) — Service Specification</h1>
-              <p>Service details for Myanmar (Monywa) clinics and pharmacies.</p>
+              <h1>{t.services.title}</h1>
+              <p>{t.services.subtitle}</p>
             </div>
 
             <div className="card">
-              <h2>Product</h2>
+              <h2>{t.services.productVal.title}</h2>
               <ul>
-                <li>Offline Flutter app for clinics/pharmacies.</li>
+                <li>{t.services.productVal.desc}</li>
                 <li>
-                  Functions:
+                  {t.services.productVal.functions.label}
                   <ul>
-                    <li>Register patient</li>
-                    <li>Record patient visit</li>
-                    <li>Record prescription to patient</li>
-                    <li>Record clinic income</li>
-                    <li>Record medicine stock in and stock out</li>
+                    {t.services.productVal.functions.list.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
                   </ul>
                 </li>
-                <li>Authentication: No login / no user accounts</li>
-                <li>Runs on: Android and Windows</li>
+                <li>{t.services.productVal.auth}</li>
+                <li>{t.services.productVal.platform}</li>
               </ul>
             </div>
 
             <div className="card-grid">
               <article className="card">
-                <h2>Packages</h2>
-                <h3>Free Plan</h3>
+                <h2>{t.services.packages.title}</h2>
+                <h3>{t.services.packages.free.title}</h3>
                 <ul>
-                  <li>Price: Free</li>
-                  <li>Limit: Up to 30 registered patients</li>
-                  <li>Note: No function limitation (only patient limit)</li>
+                  <li>{t.services.packages.free.price}</li>
+                  <li>{t.services.packages.free.limit}</li>
+                  <li>{t.services.packages.free.note}</li>
                 </ul>
-                <h3>ANS-1 Plan</h3>
+                <h3>{t.services.packages.ans1.title}</h3>
                 <ul>
-                  <li>Price: 300,000 MMK</li>
-                  <li>Limit: No limitation</li>
-                  <li>Included devices: 1 Windows + 1 Android</li>
-                  <li>Extra device fee: 100,000 MMK per additional device</li>
-                  <li>Includes: 1 free annual data maintenance</li>
+                  <li>{t.services.packages.ans1.price}</li>
+                  <li>{t.services.packages.ans1.limit}</li>
+                  <li>{t.services.packages.ans1.devices}</li>
+                  <li>{t.services.packages.ans1.extra}</li>
+                  <li>{t.services.packages.ans1.maintenance}</li>
                   <li>
-                    Consultation:
+                    {t.services.packages.ans1.consultation.label}
                     <ul>
-                      <li>Free online consultation: 10 minutes</li>
-                      <li>Physical consultation visit (Monywa): 30,000 MMK per visit</li>
+                      <li>{t.services.packages.ans1.consultation.online}</li>
+                      <li>{t.services.packages.ans1.consultation.physical}</li>
                     </ul>
                   </li>
                 </ul>
               </article>
 
               <article className="card">
-                <h2>What’s included</h2>
+                <h2>{t.services.included.title}</h2>
                 <ul>
-                  <li>Patient registration</li>
-                  <li>Patient visit recording</li>
-                  <li>Prescription recording to patient</li>
-                  <li>Clinic income recording</li>
-                  <li>Medicine stock in / stock out</li>
-                  <li>Installation on agreed device(s)</li>
-                  <li>
-                    Initial configuration:
-                    <ul>
-                      <li>Clinic name</li>
-                      <li>Basic categories (if supported)</li>
-                    </ul>
-                  </li>
+                  {t.services.included.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
                 </ul>
               </article>
 
               <article className="card">
-                <h2>What’s excluded</h2>
+                <h2>{t.services.excluded.title}</h2>
                 <ul>
-                  <li>Authentication / login / user accounts</li>
-                  <li>Custom modules beyond the listed functions</li>
-                  <li>Hardware supply (devices, printers, barcode scanners)</li>
-                  <li>Data restoration / Backup from old data (Available as paid service)</li>
+                  {t.services.excluded.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
                 </ul>
               </article>
             </div>
 
             <div className="card-grid">
               <article className="card">
-                <h2>Delivery timeline</h2>
+                <h2>{t.services.timeline.title}</h2>
                 <ul>
-                  <li>Demo → Scope confirmation → Installation → Initial setup → Training → Support</li>
+                  <li>{t.services.timeline.text}</li>
                 </ul>
               </article>
 
               <article className="card">
-                <h2>Support rules</h2>
+                <h2>{t.services.support.title}</h2>
                 <ul>
-                  <li>Channels: Phone, Email</li>
-                  <li>Support hours: Mon–Sat, 9am–5pm</li>
-                  <li>Response time: within 24 hours</li>
-                  <li>Training for new staff: Available as paid service</li>
-                  <li>Payment: Accept any payment method</li>
+                  {t.services.support.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
                 </ul>
               </article>
             </div>
 
             <div className="card-grid">
               <article className="card">
-                <h2>Pricing</h2>
+                <h2>{t.services.pricing.title}</h2>
                 <ul>
-                  <li>Included devices (ANS-1): 1 Windows + 1 Android</li>
-                  <li>Extra device fee: 100,000 MMK per additional device</li>
-                  <li>Physical visit fee: 30,000 MMK per visit</li>
+                  {t.services.pricing.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
                 </ul>
               </article>
 
               <article className="card">
-                <h2>Data Maintenance</h2>
-                <p>(ANS-1 includes 1 free annual)</p>
+                <h2>{t.services.maintenance.title}</h2>
+                <p>{t.services.maintenance.subtitle}</p>
                 <ul>
-                  <li>App update/refresh</li>
-                  <li>Clean unnecessary files</li>
-                  <li>Archive old records</li>
-                  <li>Backup check</li>
+                  {t.services.maintenance.list.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
                 </ul>
               </article>
 
               <article className="card">
-                <h2>Referral commission</h2>
+                <h2>{t.services.referral.title}</h2>
                 <ul>
-                  <li>10% commission for referral customer</li>
+                  <li>{t.services.referral.text}</li>
                 </ul>
               </article>
             </div>
@@ -175,34 +171,32 @@ export default function App() {
         <section id="about" className="section alt">
           <div className="container">
             <div className="section-head">
-              <h2>About</h2>
+              <h2>{t.about.title}</h2>
             </div>
-            <p className="lead">
-              A small start up business aim to help people who have too much to do and don't have time to solve small problems.
-            </p>
+            <p className="lead">{t.about.text}</p>
           </div>
         </section>
 
         <section id="testimonials" className="section">
           <div className="container">
             <div className="section-head">
-              <h2>Testimonials</h2>
+              <h2>{t.testimonials.title}</h2>
             </div>
-            <div className="placeholder">Testimonials coming soon</div>
+            <div className="placeholder">{t.testimonials.placeholder}</div>
           </div>
         </section>
 
         <section id="contact" className="section alt">
           <div className="container">
             <div className="section-head">
-              <h2>Contact</h2>
+              <h2>{t.contact.title}</h2>
             </div>
             <div className="contact-card">
               <h3>Nyein Pyae Sone</h3>
-              <p className="role">Manager</p>
+              <p className="role">{t.contact.role}</p>
               <div className="contact-lines">
-                <span>Phone:</span>
-                <span>Email:</span>
+                <span>{t.contact.phone}</span>
+                <span>{t.contact.email}</span>
               </div>
             </div>
           </div>
@@ -211,8 +205,8 @@ export default function App() {
 
       <footer className="footer">
         <div className="container footer-inner">
-          <span>A&S IT SOLUTION</span>
-          <span>Modern minimal digital support.</span>
+          <span>{t.hero.title}</span>
+          <span>{t.footer.text}</span>
         </div>
       </footer>
     </div>
