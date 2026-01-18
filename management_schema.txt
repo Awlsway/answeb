@@ -1,0 +1,214 @@
+I want to link my web with the following tables for better management. I can view summary of data in web and add the new data or modify the existing data with logs. Note: you can add or modify as needed.
+1. The Sales Table (Lead Log)
+Purpose: Tracks who wants to buy. Why: If you don't write down a phone number, you lose a customer. 
+Columns:
+
+Date
+
+Customer Name
+
+Phone Number
+
+Status (e.g., Interested, Demo Done, SOLD, Not Interested)
+
+
+
+
+2. The Money Table (Finance Ledger)
+Purpose: Tracks money in (Revenue) and money out (Expense). Why: Your wife needs this to answer "Did we make a profit this month?" Columns:
+
+Date
+
+Description (e.g., "Sold App to Clinic A" or "Paid Internet Bill")
+
+Money IN (+)
+
+Money OUT (-)
+
+Proof (e.g., "Saved screenshot in folder")
+
+
+
+
+3. The Client Table (Version & Support Log)
+Purpose: Tracks who has your software and if they need help. Why: Since you are selling software, you must know which version (v1.0 or v1.1) a clinic is using so you don't break their system when you visit. Columns:
+
+Client Name
+
+App Version (e.g., v1.0)
+
+Last Visit Date
+
+Device Count (e.g., 2 PCs)
+
+
+create table public.leads (
+  id uuid not null default extensions.uuid_generate_v4 (),
+  created_at timestamp with time zone not null default timezone ('utc'::text, now()),
+  customer_name text not null,
+  phone_number text not null,
+  status text not null default 'Interested'::text,
+  notes text null,
+  updated_at timestamp with time zone not null default timezone ('utc'::text, now()),
+  constraint leads_pkey primary key (id)
+) TABLESPACE pg_default;
+
+create trigger update_leads_updated_at BEFORE
+update on leads for EACH row
+execute FUNCTION update_updated_at_column ();
+
+
+
+create table public.finance_ledger (
+  id uuid not null default extensions.uuid_generate_v4 (),
+  created_at timestamp with time zone not null default timezone ('utc'::text, now()),
+  transaction_date date not null default CURRENT_DATE,
+  description text not null,
+  money_in numeric(15, 2) not null default 0.00,
+  money_out numeric(15, 2) not null default 0.00,
+  proof_url text null,
+  category text null,
+  constraint finance_ledger_pkey primary key (id)
+) TABLESPACE pg_default;
+
+create table public.clients (
+  id uuid not null default extensions.uuid_generate_v4 (),
+  created_at timestamp with time zone not null default timezone ('utc'::text, now()),
+  client_name text not null,
+  app_version text not null default 'v1.0'::text,
+  last_visit_date date null default CURRENT_DATE,
+  device_count integer not null default 1,
+  phone_number text null,
+  address text null,
+  notes text null,
+  constraint clients_pkey primary key (id)
+) TABLESPACE pg_default;
+
+
+create table public.audit_logs (
+  id uuid not null default extensions.uuid_generate_v4 (),
+  created_at timestamp with time zone not null default timezone ('utc'::text, now()),
+  table_name text not null,
+  record_id uuid not null,
+  action text not null,
+  old_data jsonb null,
+  new_data jsonb null,
+  user_id uuid null,
+  constraint audit_logs_pkey primary key (id)
+) TABLESPACE pg_default;
+
+
+
+Here is your practical workflow. I have mapped your Supabase tables directly to the **Master Operations Manual** procedures you provided earlier.
+
+This guide explains **which table** to touch and **what to type** in simple English for every common business situation.
+
+### 1. When a New Customer Calls or Visits (Inquiry)
+
+**SOP Reference:** Section 3 (Lead and Sales Management) 
+**Goal:** Don't lose the phone number.
+
+* **Action:** Go to the `leads` table.
+* **What to add:**
+* `customer_name`: The name of the doctor or shop owner.
+* `phone_number`: Crucial for follow-up.
+* `status`: 'Interested' (Default).
+* `notes`: Write what they need (e.g., "Pharmacy, 2 counters, needs demo").
+
+
+
+> **Real Life Example:** A "Dr. Kyaw" calls. You add him to `leads`. You now have a record to call him back next Tuesday.
+
+### 2. When a Customer Buys the Software (The Sale)
+
+**SOP Reference:** Section 3 (Sales) & Section 4 (Finance) 
+**Goal:** Record the money and set up their profile. You will touch **3 tables** here.
+
+**Step A: Record the Money (Get Paid)**
+
+* **Action:** Go to the `finance_ledger` table.
+* **What to add:**
+* `transaction_date`: Today's date.
+* `description`: "License Fee - Dr. Kyaw Clinic".
+* `money_in`: 300,000 (or your price).
+* `money_out`: 0.
+* `proof_url`: Upload the KPay screenshot to Supabase Storage and paste the link here.
+
+
+
+**Step B: Create the Client Profile (Install)**
+
+* **Action:** Go to the `clients` table.
+* **What to add:**
+* `client_name`: "Dr. Kyaw Clinic".
+* `phone_number`: His contact number.
+* `app_version`: "v1.0" (or whatever you installed).
+* `device_count`: 2 (Per your contract).
+* `last_visit_date`: Today (Installation date).
+
+
+
+**Step C: Close the Lead**
+
+* **Action:** Go back to the `leads` table.
+* **Update:** Change Dr. Kyaw's status from 'Interested' to 'Closed-Won'.
+
+### 3. When You Spend Money (Expense)
+
+**SOP Reference:** Section 6 (Budget and Cash Control) 
+**Goal:** Track costs so you know your true profit.
+
+* **Action:** Go to the `finance_ledger` table.
+* **What to add:**
+* `description`: "Internet Bill" or "Bus Ticket to Monywa".
+* `category`: "Fixed Cost" or "Variable Cost".
+* `money_in`: 0.
+* `money_out`: 45,000 (The cost amount).
+* `proof_url`: (Optional) Link to a photo of the receipt.
+
+
+
+### 4. When a Client Complains or Needs Support
+
+**SOP Reference:** Section 2.5 (Support Rules) 
+**Goal:** Check if they are eligible for help and record the visit.
+
+**Step A: Check their details**
+
+* **Action:** Look at the `clients` table.
+* **Check:**
+* *Which version are they on?* (If it's old, maybe they just need an update).
+* *What is their address?* (If you need to visit).
+
+
+
+**Step B: After you help them**
+
+* **If it was a quick phone call:** No data entry needed (unless you want to add a Note in `clients`).
+* **If you visited and did an update:**
+* Update `clients` table: Change `app_version` to the new one and update `last_visit_date`.
+
+
+* **If you charged a fee (e.g., 30,000 MMK for on-site visit):**
+* Add row to `finance_ledger`: `description`="Support Visit", `money_in`=30,000.
+
+
+
+### 5. What is the `audit_logs` table for?
+
+**SOP Reference:** Section 7 (Logistics/Controls) 
+**Goal:** Safety and "Undo" button.
+
+* **Practical Use:** You do **not** type into this table manually.
+* **How it works:** Your programmer (you) should set up the app so that whenever you or your wife changes a row in `finance_ledger` or `clients`, the system *automatically* writes a copy of the old data here.
+* **Why?** If you accidentally delete a payment record, you can look here to find it back. It acts as your "security camera."
+
+### Summary Checklist for Your Wife (Admin)
+
+| Event | Table to Open |
+| --- | --- |
+| **Phone rings (New inquiry)** | `leads` |
+| **Money received (Sales)** | `finance_ledger` (Money In) |
+| **Paying a bill (Expense)** | `finance_ledger` (Money Out) |
+| **Finished installing new shop** | `clients` (New Row) |
+| **Updated software version** | `clients` (Update Row) |
