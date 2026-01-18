@@ -7,7 +7,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ============================================
 -- HERO CONTENT TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS hero_content (
+CREATE TABLE IF NOT EXISTS web_hero_content (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   eyebrow TEXT NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS hero_content (
 -- ============================================
 -- SERVICES TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS services (
+CREATE TABLE IF NOT EXISTS web_services (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS services (
 -- ============================================
 -- PACKAGES TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS packages (
+CREATE TABLE IF NOT EXISTS web_packages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   package_type TEXT NOT NULL CHECK (package_type IN ('free', 'ans1')),
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS packages (
 -- ============================================
 -- FEATURES TABLE (Included/Excluded)
 -- ============================================
-CREATE TABLE IF NOT EXISTS features (
+CREATE TABLE IF NOT EXISTS web_features (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   category TEXT NOT NULL CHECK (category IN ('included', 'excluded')),
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS features (
 -- ============================================
 -- TIMELINE TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS timeline (
+CREATE TABLE IF NOT EXISTS web_timeline (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS timeline (
 -- ============================================
 -- SUPPORT INFO TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS support_info (
+CREATE TABLE IF NOT EXISTS web_support_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS support_info (
 -- ============================================
 -- PRICING INFO TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS pricing_info (
+CREATE TABLE IF NOT EXISTS web_pricing_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS pricing_info (
 -- ============================================
 -- MAINTENANCE INFO TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS maintenance_info (
+CREATE TABLE IF NOT EXISTS web_maintenance_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS maintenance_info (
 -- ============================================
 -- REFERRAL INFO TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS referral_info (
+CREATE TABLE IF NOT EXISTS web_referral_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS referral_info (
 -- ============================================
 -- ABOUT SECTION TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS about_section (
+CREATE TABLE IF NOT EXISTS web_about_section (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS about_section (
 -- ============================================
 -- TESTIMONIALS TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS testimonials (
+CREATE TABLE IF NOT EXISTS web_testimonials (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   customer_name TEXT NOT NULL,
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS testimonials (
 -- ============================================
 -- CONTACT INFO TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS contact_info (
+CREATE TABLE IF NOT EXISTS web_contact_info (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   title TEXT NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS contact_info (
 -- ============================================
 -- NAVIGATION TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS navigation (
+CREATE TABLE IF NOT EXISTS web_navigation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   services_text TEXT NOT NULL,
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS navigation (
 -- ============================================
 -- FOOTER TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS footer_content (
+CREATE TABLE IF NOT EXISTS web_footer_content (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   language TEXT NOT NULL CHECK (language IN ('en', 'my')),
   footer_text TEXT NOT NULL,
@@ -220,47 +220,47 @@ CREATE TABLE IF NOT EXISTS footer_content (
 -- ============================================
 
 -- Enable RLS on all tables
-ALTER TABLE hero_content ENABLE ROW LEVEL SECURITY;
-ALTER TABLE services ENABLE ROW LEVEL SECURITY;
-ALTER TABLE packages ENABLE ROW LEVEL SECURITY;
-ALTER TABLE features ENABLE ROW LEVEL SECURITY;
-ALTER TABLE timeline ENABLE ROW LEVEL SECURITY;
-ALTER TABLE support_info ENABLE ROW LEVEL SECURITY;
-ALTER TABLE pricing_info ENABLE ROW LEVEL SECURITY;
-ALTER TABLE maintenance_info ENABLE ROW LEVEL SECURITY;
-ALTER TABLE referral_info ENABLE ROW LEVEL SECURITY;
-ALTER TABLE about_section ENABLE ROW LEVEL SECURITY;
-ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
-ALTER TABLE contact_info ENABLE ROW LEVEL SECURITY;
-ALTER TABLE navigation ENABLE ROW LEVEL SECURITY;
-ALTER TABLE footer_content ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_hero_content ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_services ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_packages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_features ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_timeline ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_support_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_pricing_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_maintenance_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_referral_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_about_section ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_testimonials ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_contact_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_navigation ENABLE ROW LEVEL SECURITY;
+ALTER TABLE web_footer_content ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for public read access
-CREATE POLICY "Public read access" ON hero_content FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON services FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON packages FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON features FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON timeline FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON support_info FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON pricing_info FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON maintenance_info FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON referral_info FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON about_section FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON testimonials FOR SELECT USING (is_active = true);
-CREATE POLICY "Public read access" ON contact_info FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON navigation FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON footer_content FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_hero_content FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_services FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_packages FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_features FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_timeline FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_support_info FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_pricing_info FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_maintenance_info FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_referral_info FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_about_section FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_testimonials FOR SELECT USING (is_active = true);
+CREATE POLICY "Public read access" ON web_contact_info FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_navigation FOR SELECT USING (true);
+CREATE POLICY "Public read access" ON web_footer_content FOR SELECT USING (true);
 
 -- ============================================
 -- INDEXES FOR PERFORMANCE
 -- ============================================
-CREATE INDEX idx_hero_language ON hero_content(language);
-CREATE INDEX idx_services_language ON services(language);
-CREATE INDEX idx_packages_language_type ON packages(language, package_type);
-CREATE INDEX idx_features_language_category ON features(language, category);
-CREATE INDEX idx_testimonials_active ON testimonials(is_active, sort_order);
-CREATE INDEX idx_contact_language ON contact_info(language);
-CREATE INDEX idx_navigation_language ON navigation(language);
+CREATE INDEX idx_web_hero_language ON web_hero_content(language);
+CREATE INDEX idx_web_services_language ON web_services(language);
+CREATE INDEX idx_web_packages_language_type ON web_packages(language, package_type);
+CREATE INDEX idx_web_features_language_category ON web_features(language, category);
+CREATE INDEX idx_web_testimonials_active ON web_testimonials(is_active, sort_order);
+CREATE INDEX idx_web_contact_language ON web_contact_info(language);
+CREATE INDEX idx_web_navigation_language ON web_navigation(language);
 
 -- ============================================
 -- SAMPLE DATA - You can modify this later

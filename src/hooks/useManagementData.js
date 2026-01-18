@@ -102,7 +102,7 @@ export function useManagementData(tableName) {
 
     const logAction = async (action, tableName, recordId, oldData, newData) => {
         try {
-            await supabase.from('audit_logs').insert([{
+            await supabase.from('mng_audit_logs').insert([{
                 table_name: tableName,
                 record_id: recordId,
                 action: action,

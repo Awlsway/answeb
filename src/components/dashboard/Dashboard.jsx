@@ -9,10 +9,10 @@ export default function Dashboard({ onExit }) {
     const [loginError, setLoginError] = useState('');
 
     // Use custom hooks for each table
-    const leads = useManagementData('leads');
-    const finance = useManagementData('finance_ledger');
-    const clients = useManagementData('clients');
-    const logs = useManagementData('audit_logs');
+    const leads = useManagementData('mng_leads');
+    const finance = useManagementData('mng_finance_ledger');
+    const clients = useManagementData('mng_clients');
+    const logs = useManagementData('mng_audit_logs');
 
     const handleLogin = (e) => {
         e.preventDefault();

@@ -88,30 +88,30 @@ export function useSupabaseData(table, language = 'en', options = {}) {
  * @returns {object} - All content organized by section
  */
 export function useWebsiteContent(language = 'en') {
-    const hero = useSupabaseData('hero_content', language, { realtime: true })
-    const services = useSupabaseData('services', language, { realtime: true })
-    const packages = useSupabaseData('packages', language, {
+    const hero = useSupabaseData('web_hero_content', language, { realtime: true })
+    const services = useSupabaseData('web_services', language, { realtime: true })
+    const packages = useSupabaseData('web_packages', language, {
         realtime: true,
         orderBy: { column: 'sort_order', ascending: true }
     })
-    const features = useSupabaseData('features', language, {
+    const features = useSupabaseData('web_features', language, {
         realtime: true,
         orderBy: { column: 'sort_order', ascending: true }
     })
-    const timeline = useSupabaseData('timeline', language, { realtime: true })
-    const support = useSupabaseData('support_info', language, { realtime: true })
-    const pricing = useSupabaseData('pricing_info', language, { realtime: true })
-    const maintenance = useSupabaseData('maintenance_info', language, { realtime: true })
-    const referral = useSupabaseData('referral_info', language, { realtime: true })
-    const about = useSupabaseData('about_section', language, { realtime: true })
-    const testimonials = useSupabaseData('testimonials', language, {
+    const timeline = useSupabaseData('web_timeline', language, { realtime: true })
+    const support = useSupabaseData('web_support_info', language, { realtime: true })
+    const pricing = useSupabaseData('web_pricing_info', language, { realtime: true })
+    const maintenance = useSupabaseData('web_maintenance_info', language, { realtime: true })
+    const referral = useSupabaseData('web_referral_info', language, { realtime: true })
+    const about = useSupabaseData('web_about_section', language, { realtime: true })
+    const testimonials = useSupabaseData('web_testimonials', language, {
         realtime: true,
         filters: { is_active: true },
         orderBy: { column: 'sort_order', ascending: true }
     })
-    const contact = useSupabaseData('contact_info', language, { realtime: true })
-    const navigation = useSupabaseData('navigation', language, { realtime: true })
-    const footer = useSupabaseData('footer_content', language, { realtime: true })
+    const contact = useSupabaseData('web_contact_info', language, { realtime: true })
+    const navigation = useSupabaseData('web_navigation', language, { realtime: true })
+    const footer = useSupabaseData('web_footer_content', language, { realtime: true })
 
     const loading = hero.loading || services.loading || packages.loading ||
         features.loading || about.loading || contact.loading ||
