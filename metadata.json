@@ -1,0 +1,8 @@
+{
+  "name": "Supabase Headless CMS Portfolio",
+  "description": "A high-performance, localized (EN/MY) business showcase platform powered by a Supabase headless architecture for dynamic content management and lead generation.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

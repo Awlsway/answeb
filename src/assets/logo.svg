@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="160" height="160" rx="32" fill="#1F1B16"/>
-  <path d="M42 96C42 74 58 58 80 58C102 58 118 74 118 96" stroke="#D17C2F" stroke-width="10" stroke-linecap="round"/>
-  <text x="80" y="100" text-anchor="middle" font-family="Space Grotesk, Arial, sans-serif" font-size="28" fill="#F6F2EE">A&amp;S</text>
-</svg>

@@ -1,0 +1,94 @@
+Objective
+Integrate the answeb1 project with a live Supabase backend by setting up the database schema and configuring the client-side service.
+
+Proposed Changes
+Supabase Database Schema
+To support the current application structure, you need to create the following tables in your Supabase SQL Editor.
+
+1. Products Table
+create table public.web_products_showcase (
+  id uuid default gen_random_uuid() primary key,
+  slug text not null,
+  language_code text check (language_code in ('en', 'my')),
+  name text not null,
+  tagline text,
+  description text,
+  features text[],
+  status text,
+  demo_url text, -- Use this for external links or video pages
+  image_url text, -- Storage Public URL
+  video_url text, -- Added for demo videos
+  created_at timestamp with time zone default now()
+);
+-- Enable RLS and public read access
+alter table public.web_products_showcase enable row level security;
+create policy "Allow public read access" on public.web_products_showcase for select using (true);
+2. Testimonials Table
+create table public.web_testimonials (
+  id uuid default gen_random_uuid() primary key,
+  language_code text check (language_code in ('en', 'my')),
+  client_name text not null,
+  business_name text,
+  quote text not null,
+  rating integer check (rating >= 1 and rating <= 5),
+  logo_url text,
+  created_at timestamp with time zone default now()
+);
+alter table public.web_testimonials enable row level security;
+create policy "Allow public read access" on public.web_testimonials for select using (true);
+3. Content Sections Table
+create table public.web_content_sections (
+  id uuid default gen_random_uuid() primary key,
+  section_key text not null,
+  language_code text check (language_code in ('en', 'my')),
+  headline text,
+  subtext text,
+  cta_label text,
+  created_at timestamp with time zone default now()
+);
+alter table public.web_content_sections enable row level security;
+create policy "Allow public read access" on public.web_content_sections for select using (true);
+4. Leads Table
+create table public.web_leads (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  email text not null,
+  phone text,
+  interest text,
+  message text,
+  language_code text,
+  created_at timestamp with time zone default now()
+);
+alter table public.web_leads enable row level security;
+create policy "Allow anonymous inserts" on public.web_leads for insert with check (true);
+Media Management (Supabase Storage)
+To handle photos and videos dynamically:
+
+1. Create a Storage Bucket
+Go to Storage in your Supabase Dashboard.
+Create a new bucket named web_content.
+Set the bucket to Public (so anyone can view the photos/videos).
+2. The Dynamic Workflow
+Upload: Upload your images or videos to the web_content bucket.
+URL Mapping: Supabase will provide a Public URL for each file (e.g., https://[id].supabase.co/storage/v1/object/public/web_content/hero.jpg).
+Database Storage: Copy this URL and paste it into the image_url or video_url column of your web_products_showcase table.
+Instant Update: When you change the file in Storage or update the URL in the database, the website will reflect the change immediately upon the next refresh.
+Client-Side Integration
+Install Supabase SDK:
+npm install @supabase/supabase-js
+Environment Variables: Add your Supabase URL and Anon Key to 
+.env.local
+:
+VITE_SUPABASE_URL=your_project_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+Update Service: Replace mock logic in 
+supabaseService.ts
+ with real Supabase client calls, using the new prefixed table names (e.g., web_products_showcase). Update the 
+Product
+ type in 
+types.ts
+ to include video_url.
+Verification Plan
+Data Fetching: Verify that products and testimonials load correctly from the live database.
+Lead Submission: Submit a test lead and verify it appears in the Supabase leads table.
+Localization: Ensure language filtering works correctly on live data.

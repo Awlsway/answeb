@@ -1,5 +1,5 @@
 {
-  "name": "answeb",
+  "name": "supabase-headless-cms-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.0",
-    "vite": "^5.0.0"
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "supabase": "^2.72.8",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }
